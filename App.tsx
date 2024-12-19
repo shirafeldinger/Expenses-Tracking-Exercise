@@ -37,17 +37,19 @@ const App = () => {
           <Stack.Screen
             name="Welcome"
             component={WelcomeScreen}
+            options={{
+              headerShown: false,
+            }}
           />
         ) : (
-          <>
-            <Stack.Screen
-              name="HomeTabs"
-              component={HomeTabs}
-              options={{
-                title: `Welcome, ${userName}`, // Show the user's name in the header title
-              }}
-            />
-          </>
+          <Stack.Screen
+            name="HomeTabs"
+            component={HomeTabs}
+            options={{
+              headerShown: false,
+              title: `Welcome, ${userName}`,
+            }}
+          />
         )}
       </Stack.Navigator>
     </NavigationContainer>
