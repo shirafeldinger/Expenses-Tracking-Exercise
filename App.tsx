@@ -6,6 +6,7 @@ import WelcomeScreen from './src/screens/WelcomeScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ActivityIndicator } from 'react-native';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,38 +20,38 @@ const HomeTabs = () => (
 
 const App = () => {
   const [userName, setUserName] = useState<string>('');
-
+  const [isReady, setIsReady] = useState<boolean>(false);
   useEffect(() => {
     const checkName = async () => {
       const name = await AsyncStorage.getItem('fullName');
       if (name) {
         setUserName(name);
       }
+      setIsReady(true);
     };
     checkName();
   }, []);
 
+if (!isReady) {
+  return  <ActivityIndicator size="large" color="#0000ff" />
+}
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {userName.length === 0 ? (
-          <Stack.Screen
-            name="Welcome"
-            component={WelcomeScreen}
-            options={{
-              headerShown: false,
-            }}
-          />
-        ) : (
-          <Stack.Screen
-            name="HomeTabs"
-            component={HomeTabs}
-            options={{
-              headerShown: false,
-              title: `Welcome, ${userName}`,
-            }}
-          />
-        )}
+      <Stack.Navigator initialRouteName={userName.length === 0 ? "Welcome" : "HomeTabs"}>
+        <Stack.Screen
+          name="Welcome"
+          component={WelcomeScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="HomeTabs"
+          component={HomeTabs}
+          options={{
+            title: `Welcome, ${userName}`,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
