@@ -19,15 +19,26 @@ const HomeScreen = () => {
       ],
     },
   ];
-  const totalExpensesCalculation = sections.reduce(
-    (total, section) =>
-      total +
-      section.data.reduce(
-        (sectionTotal, item) => sectionTotal + item.amount,
-        0,
-      ),
-    0,
-  );
+  const totalExpensesCalculation = sections
+    .reduce(
+      (total, section) =>
+        total +
+        section.data.reduce(
+          (sectionTotal, item) => sectionTotal + item.amount,
+          0,
+        ),
+      0,
+    )
+    .toFixed(2);
+
+  const formatDate = (date: string) => {
+    const parsedDate = new Date(date);
+    const day = String(parsedDate.getDate()).padStart(2, '0');
+    const month = String(parsedDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = parsedDate.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.totalContainer}>
@@ -40,11 +51,11 @@ const HomeScreen = () => {
         renderItem={({item}) => (
           <View style={styles.expenseItem}>
             <Text style={styles.expenseTitle}>{item.title}</Text>
-            <Text style={styles.expenseAmount}>${item.amount}</Text>
+            <Text style={styles.expenseAmount}>${item.amount.toFixed(2)}</Text>
           </View>
         )}
         renderSectionHeader={({section: {title}}) => (
-          <Text style={styles.dateHeader}>{title}</Text>
+          <Text style={styles.dateHeader}>{formatDate(title)}</Text>
         )}
       />
     </View>

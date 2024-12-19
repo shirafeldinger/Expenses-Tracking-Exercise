@@ -8,34 +8,56 @@ import ProfileScreen from './src/screens/ProfileScreen';
 import {ActivityIndicator} from 'react-native';
 import {PURPLE} from './src/constants/colors';
 import {
+  ADD_EXPENSE,
+  BlankScreen,
   HOME_TAB_SCREEN,
   HOME_TABS,
   PROFILE_SCREEN,
   WELCOME_SCREEN,
 } from './src/constants/navigation';
 import {useUserStatus} from './src/hooks/useUserStatus';
+import AddExpense from './src/screens/AddExpense';
+import AddExpenseIcon from './src/components/AddExpenseTabIcon';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const HomeTabs = () => (
-  <Tab.Navigator>
-    <Tab.Screen
-      name={HOME_TAB_SCREEN}
-      component={HomeScreen}
-      options={{
-        headerShown: false,
-      }}
-    />
-    <Tab.Screen
-      name={PROFILE_SCREEN}
-      component={ProfileScreen}
-      options={{
-        headerShown: false,
-      }}
-    />
-  </Tab.Navigator>
-);
+const HomeTabs = () => {
+  const {userName} = useUserStatus();
+  return (
+    <Tab.Navigator>
+      <Tab.Screen
+        name={HOME_TAB_SCREEN}
+        component={HomeScreen}
+        options={{
+          tabBarLabel: HOME_TAB_SCREEN,
+          title: `Welcome, ${userName}`,
+        }}
+      />
+      <Tab.Screen
+        name={'blank'}
+        component={BlankScreen}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: AddExpenseIcon,
+        }}
+        listeners={({navigation}) => ({
+          tabPress: e => {
+            e.preventDefault();
+            navigation.navigate(ADD_EXPENSE);
+          },
+        })}
+      />
+      <Tab.Screen
+        name={PROFILE_SCREEN}
+        component={ProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 const App = () => {
   const {userName, isReady} = useUserStatus();
@@ -60,8 +82,16 @@ const App = () => {
           name={HOME_TABS}
           component={HomeTabs}
           options={{
-            title: `Welcome, ${userName}`,
+            headerShown: false,
           }}
+        />
+        <Stack.Screen
+          name={ADD_EXPENSE}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+          }}
+          component={AddExpense}
         />
       </Stack.Navigator>
     </NavigationContainer>
