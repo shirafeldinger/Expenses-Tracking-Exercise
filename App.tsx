@@ -1,53 +1,51 @@
-import React, {useEffect, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import WelcomeScreen from './src/screens/WelcomeScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ActivityIndicator} from 'react-native';
+import { ActivityIndicator } from 'react-native';
+import { PURPLE } from './src/constants/colors';
+import {
+  HOME_TAB_SCREEN,
+  PROFILE_SCREEN,
+  WELCOME_SCREEN,
+} from './src/constants/navigation';
+import { useUserStatus } from './src/hooks/useUserStatus';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const HomeTabs = () => (
   <Tab.Navigator>
-    <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Profile" component={ProfileScreen} />
+    <Tab.Screen name={HOME_TAB_SCREEN} component={HomeScreen} />
+    <Tab.Screen name={PROFILE_SCREEN} component={ProfileScreen} />
   </Tab.Navigator>
 );
 
 const App = () => {
-  const [userName, setUserName] = useState<string>('');
-  const [isReady, setIsReady] = useState<boolean>(false);
-  useEffect(() => {
-    const checkName = async () => {
-      const name = await AsyncStorage.getItem('fullName');
-      if (name) {
-        setUserName(name);
-      }
-      setIsReady(true);
-    };
-    checkName();
-  }, []);
+  const { userName, isReady } = useUserStatus();
+
+  const initialRouteName =
+    userName.length === 0 ? WELCOME_SCREEN : HOME_TAB_SCREEN;
 
   if (!isReady) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return <ActivityIndicator size="large" color={PURPLE} />;
   }
+
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName={userName.length === 0 ? 'Welcome' : 'HomeTabs'}>
+      <Stack.Navigator initialRouteName={initialRouteName}>
         <Stack.Screen
-          name="Welcome"
+          name={WELCOME_SCREEN}
           component={WelcomeScreen}
           options={{
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name="HomeTabs"
+          name={HOME_TAB_SCREEN}
           component={HomeTabs}
           options={{
             title: `Welcome, ${userName}`,
