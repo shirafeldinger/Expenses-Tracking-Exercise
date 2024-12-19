@@ -23,9 +23,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  text:{
-    color: WHITE
-  }
+  text: {
+    color: WHITE,
+  },
 });
 
 export default Button;

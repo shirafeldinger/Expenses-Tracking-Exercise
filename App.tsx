@@ -40,8 +40,7 @@ const HomeTabs = () => (
 const App = () => {
   const {userName, isReady} = useUserStatus();
 
-  const initialRouteName =
-    userName.length === 0 ? WELCOME_SCREEN : HOME_TAB_SCREEN;
+  const initialRouteName = userName.length === 0 ? WELCOME_SCREEN : HOME_TABS;
 
   if (!isReady) {
     return <ActivityIndicator size="large" color={PURPLE} />;

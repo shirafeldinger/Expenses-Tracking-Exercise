@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from '../components/Button';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/navigation';
-import {HOME_SCREEN_TEXTS} from '../constants/texts';
+import {WELCOME_SCREEN_TEXTS} from '../constants/texts';
 import {PURPLE} from '../constants/colors';
 
 type WelcomeScreenNavigationProp = StackNavigationProp<
@@ -14,7 +14,7 @@ type WelcomeScreenNavigationProp = StackNavigationProp<
 interface WelcomeScreenProps {
   navigation: WelcomeScreenNavigationProp;
 }
-const {heading, subHeading, button, input} = HOME_SCREEN_TEXTS;
+const {heading, subHeading, button, input} = WELCOME_SCREEN_TEXTS;
 
 const WelcomeScreen: React.FC<WelcomeScreenProps> = ({navigation}) => {
   const [fullName, setFullName] = useState<string>('');
