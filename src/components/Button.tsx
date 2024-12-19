@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {Text, StyleSheet, Pressable} from 'react-native';
-import {PURPLE} from '../constants/colors';
+import {PURPLE, WHITE} from '../constants/colors';
 
 type ButtonProps = {
   text: string;
@@ -10,7 +10,7 @@ type ButtonProps = {
 const Button: FC<ButtonProps> = ({text, onPress}) => {
   return (
     <Pressable style={styles.button} onPress={onPress}>
-      <Text>{text}</Text>
+      <Text style={styles.text}>{text}</Text>
     </Pressable>
   );
 };
@@ -23,6 +23,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  text:{
+    color: WHITE
+  }
 });
 
 export default Button;
