@@ -1,14 +1,26 @@
 import React, {useState} from 'react';
-import {View, Text, Button, TextInput, Alert, StyleSheet} from 'react-native';
+import {View, Text, TextInput, Alert, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Button from '../components/Button';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '../types/navigation';
+import {HOME_SCREEN_TEXTS} from '../constants/texts';
+import {PURPLE} from '../constants/colors';
 
-const WelcomeScreen = ({navigation}) => {
+type WelcomeScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Welcome'
+>;
+interface WelcomeScreenProps {
+  navigation: WelcomeScreenNavigationProp;
+}
+const {heading, subHeading, button, input} = HOME_SCREEN_TEXTS;
+
+const WelcomeScreen: React.FC<WelcomeScreenProps> = ({navigation}) => {
   const [fullName, setFullName] = useState<string>('');
-
   const handleSubmit = async () => {
     if (fullName.trim()) {
       await AsyncStorage.setItem('fullName', fullName);
-      // Ensure the navigation.replace works as expected
       navigation.replace('HomeTabs');
     } else {
       Alert.alert('Error', 'Please enter your full name.');
@@ -17,15 +29,15 @@ const WelcomeScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Welcome to the App!</Text>
-      <Text style={styles.subHeading}>Please enter your full name:</Text>
+      <Text style={styles.heading}>{heading}</Text>
+      <Text style={styles.subHeading}>{subHeading}</Text>
       <TextInput
         value={fullName}
         onChangeText={setFullName}
-        placeholder="Full Name"
+        placeholder={input}
         style={styles.input}
       />
-      <Button title="Submit" onPress={handleSubmit} />
+      <Button text={button} onPress={handleSubmit} />
     </View>
   );
 };
@@ -47,7 +59,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: PURPLE,
     borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 10,
