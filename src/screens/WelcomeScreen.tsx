@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, Button, TextInput, Alert, StyleSheet } from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, Button, TextInput, Alert, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const WelcomeScreen = ({ navigation }) => {
+const WelcomeScreen = ({navigation}) => {
   const [fullName, setFullName] = useState<string>('');
 
   const handleSubmit = async () => {
