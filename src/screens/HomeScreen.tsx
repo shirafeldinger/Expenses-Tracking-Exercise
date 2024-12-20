@@ -7,18 +7,19 @@ import {formatDate} from '../utils/addExpense';
 import EmptyList from '../components/Home/EmptyList';
 import useExpenses from '../hooks/useExpenses';
 import ListItem from '../components/Home/ListItem';
+import {addCommaAndDotToPrice} from '../utils';
 
 const {totalExpenses} = HOME_SCREEN_TEXTS;
 
 const HomeScreen = () => {
   const {sections} = useExpenses();
-
+  const totalPrice = totalExpensesCalculation(sections);
   return (
     <View style={styles.container}>
       <View style={styles.totalContainer}>
         <Text style={styles.total}>{totalExpenses}</Text>
         <Text style={styles.totalAmount}>
-          ${totalExpensesCalculation(sections)}
+          ${addCommaAndDotToPrice(totalPrice)}
         </Text>
       </View>
       <SectionList
