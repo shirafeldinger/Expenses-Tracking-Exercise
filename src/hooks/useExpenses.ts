@@ -13,6 +13,10 @@ const useExpenses = () => {
       const existingSections = await AsyncStorage.getItem('expenses');
       if (existingSections) {
         const parsedSections = JSON.parse(existingSections);
+        parsedSections.sort(
+          (a: ExpenseSection, b: ExpenseSection) =>
+            new Date(b.title).getTime() - new Date(a.title).getTime(),
+        );
         setSections(parsedSections);
       }
     } catch (error) {

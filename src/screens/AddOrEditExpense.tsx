@@ -10,7 +10,15 @@ import {
   AddOrEditScreenRouteProp,
 } from '../types/navigation';
 
-const {titleText, titleInput, amountInput, dateText, button, editButton , editTitleText} = ADD_EXPENSE;
+const {
+  titleText,
+  titleInput,
+  amountInput,
+  dateText,
+  button,
+  editButton,
+  editTitleText,
+} = ADD_EXPENSE;
 
 interface AddOrEditScreenProps {
   navigation: AddOrEditScreenNavigationProp;

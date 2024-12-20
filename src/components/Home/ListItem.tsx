@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {RED, WHITE} from '../../constants/colors';
+import {GREEN, RED, WHITE} from '../../constants/colors';
 import useExpenses from '../../hooks/useExpenses';
 import {ExpenseItem, ExpenseSection} from '../../types';
 
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   editButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: GREEN,
     padding: 8,
     borderRadius: 5,
   },

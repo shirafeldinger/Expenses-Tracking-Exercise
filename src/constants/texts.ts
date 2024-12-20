@@ -13,10 +13,10 @@ You can add one pressing the + button`,
 
 export const ADD_EXPENSE = {
   titleText: 'Create Expense',
-  editTitleText:'Edit Expense',
+  editTitleText: 'Edit Expense',
   titleInput: 'Enter title',
   amountInput: 'Enter amount',
   dateText: 'Enter Date',
   button: 'Create',
-  editButton:'Edit'
+  editButton: 'Edit',
 };

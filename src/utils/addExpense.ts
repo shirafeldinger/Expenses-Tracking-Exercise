@@ -62,7 +62,6 @@ export const updateExpense = async (
       }
     }
 
-    // Save updated sections back to AsyncStorage
     await AsyncStorage.setItem('expenses', JSON.stringify(sections));
   } catch (error) {
     console.error('Error updating expense:', error);
