@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import {WELCOME_SCREEN_TEXTS} from '../constants/texts';
 import {PURPLE} from '../constants/colors';
 import {WelcomeScreenNavigationProp} from '../types/navigation';
+import { MAIN_TABS } from '../constants/navigation';
 
 interface WelcomeScreenProps {
   navigation: WelcomeScreenNavigationProp;
@@ -16,7 +17,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({navigation}) => {
   const handleSubmit = async () => {
     if (fullName.trim()) {
       await AsyncStorage.setItem('fullName', fullName);
-      navigation.replace('HomeTabs');
+      navigation.replace(MAIN_TABS);
     } else {
       Alert.alert('Error', 'Please enter your full name.');
     }

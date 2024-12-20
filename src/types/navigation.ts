@@ -4,7 +4,7 @@ import {RouteProp} from '@react-navigation/native';
 
 export type RootStackParamList = {
   Welcome: undefined;
-  HomeTabs: undefined;
+  MainTabs: undefined;
   AddOrEditExpense: {expense: ExpenseItem; isEditMode: boolean};
 };
 
