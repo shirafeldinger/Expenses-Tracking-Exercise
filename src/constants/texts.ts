@@ -7,6 +7,8 @@ export const WELCOME_SCREEN_TEXTS = {
 
 export const HOME_SCREEN_TEXTS = {
   totalExpenses: 'Total Expenses:',
+  emptyList: `No expenses available.
+You can add one pressing the + button`,
 };
 
 export const ADD_EXPENSE = {
