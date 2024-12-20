@@ -1,5 +1,11 @@
-import React from 'react';
-import {View, Text, SectionList, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  SectionList,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import {SECTION_HEADER_BACKGROUND, WHITE} from '../constants/colors';
 import {HOME_SCREEN_TEXTS} from '../constants/texts';
 import {totalExpensesCalculation} from '../utils/home';
@@ -8,20 +14,32 @@ import EmptyList from '../components/Home/EmptyList';
 import useExpenses from '../hooks/useExpenses';
 import ListItem from '../components/Home/ListItem';
 import {addCommaAndDotToPrice} from '../utils';
+import FilterModal from '../components/Home/FilterModal';
 
 const {totalExpenses} = HOME_SCREEN_TEXTS;
 
 const HomeScreen = () => {
   const {sections} = useExpenses();
   const totalPrice = totalExpensesCalculation(sections);
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.totalContainer}>
         <Text style={styles.total}>{totalExpenses}</Text>
         <Text style={styles.totalAmount}>
-          ${addCommaAndDotToPrice(totalPrice)}
+          {addCommaAndDotToPrice(totalPrice)}
         </Text>
       </View>
+
+      <TouchableOpacity onPress={toggleModal} style={styles.filterButton}>
+        <Text style={styles.filterButtonText}>Open Modal</Text>
+      </TouchableOpacity>
+
       <SectionList
         sections={sections}
         keyExtractor={(item, index) => `${item.title}-${index}`}
@@ -33,6 +51,8 @@ const HomeScreen = () => {
         )}
         ListEmptyComponent={EmptyList}
       />
+
+      <FilterModal isModalVisible={isModalVisible} toggleModal={toggleModal} />
     </View>
   );
 };
@@ -56,6 +76,17 @@ const styles = StyleSheet.create({
   },
   totalAmount: {
     fontSize: 18,
+  },
+  filterButton: {
+    padding: 10,
+    backgroundColor: '#008CBA',
+    borderRadius: 5,
+    margin: 10,
+    alignItems: 'center',
+  },
+  filterButtonText: {
+    color: '#fff',
+    fontSize: 16,
   },
 });
 

@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import {WELCOME_SCREEN_TEXTS} from '../constants/texts';
 import {PURPLE} from '../constants/colors';
 import {WelcomeScreenNavigationProp} from '../types/navigation';
-import { MAIN_TABS } from '../constants/navigation';
+import {MAIN_TABS} from '../constants/navigation';
 
 interface WelcomeScreenProps {
   navigation: WelcomeScreenNavigationProp;
