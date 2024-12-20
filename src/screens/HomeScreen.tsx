@@ -5,10 +5,11 @@ import {HOME_SCREEN_TEXTS} from '../constants/texts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {totalExpensesCalculation} from '../utils/home';
 import {formatDate} from '../utils/addExpense';
+import {ExpenseSection} from '../types';
 
 const {totalExpenses} = HOME_SCREEN_TEXTS;
 const HomeScreen = () => {
-  const [sections, setSections] = useState([]);
+  const [sections, setSections] = useState<ExpenseSection[]>([]);
 
   useEffect(() => {
     const fetchExpenses = async () => {

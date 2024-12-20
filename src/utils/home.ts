@@ -1,4 +1,6 @@
-export const totalExpensesCalculation = sections =>
+import {ExpenseSection} from '../types';
+
+export const totalExpensesCalculation = (sections: ExpenseSection[]) =>
   sections
     .reduce(
       (total, section) =>

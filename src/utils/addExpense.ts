@@ -1,10 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {NewExpense} from '../types';
+import {ExpenseSection, NewExpense} from '../types';
 
 export const saveExpense = async (newExpense: NewExpense) => {
   try {
     const existingSections = await AsyncStorage.getItem('expenses');
-    const sections = existingSections ? JSON.parse(existingSections) : [];
+    const sections = existingSections
+      ? (JSON.parse(existingSections) as ExpenseSection[])
+      : [];
 
     const sectionIndex = sections.findIndex(
       section => section.title === newExpense.date,
