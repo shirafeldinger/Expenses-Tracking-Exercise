@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
+import {View, Text, TextInput, StyleSheet} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {GREY, WHITE} from '../constants/colors';
 import {useNavigation} from '@react-navigation/native';
 import {saveExpense} from '../utils/addExpense';
+import Button from '../components/Button';
+import {ADD_EXPENSE} from '../constants/texts';
 
+const {titleText, titleInput, amountInput, dateText, button} = ADD_EXPENSE;
 const AddExpense = () => {
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
@@ -36,38 +39,42 @@ const AddExpense = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Create Expense</Text>
+      <View>
+        <Text onPress={navigation.goBack} style={styles.close}>
+          X
+        </Text>
+        <Text style={styles.title}>{titleText}</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Enter title"
-        value={title}
-        onChangeText={setTitle}
-        placeholderTextColor={GREY}
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Enter amount"
-        keyboardType="numeric"
-        value={amount}
-        onChangeText={setAmount}
-        placeholderTextColor={GREY}
-      />
-
-      <View style={[styles.input, styles.dateContainer]}>
-        <Text style={styles.dateLabel}>Enter Date</Text>
-        <DateTimePicker
-          value={date}
-          mode="date"
-          display="default"
-          onChange={(event, selectedDate) => {
-            if (selectedDate) setDate(selectedDate);
-          }}
+        <TextInput
+          style={styles.input}
+          placeholder={titleInput}
+          value={title}
+          onChangeText={setTitle}
+          placeholderTextColor={GREY}
         />
-      </View>
 
-      <Button title="Add Expense" onPress={handleSave} />
+        <TextInput
+          style={styles.input}
+          placeholder={amountInput}
+          keyboardType="numeric"
+          value={amount}
+          onChangeText={setAmount}
+          placeholderTextColor={GREY}
+        />
+
+        <View style={[styles.input, styles.dateContainer]}>
+          <Text style={styles.dateLabel}>{dateText}</Text>
+          <DateTimePicker
+            value={date}
+            mode="date"
+            display="default"
+            onChange={(event, selectedDate) => {
+              if (selectedDate) setDate(selectedDate);
+            }}
+          />
+        </View>
+      </View>
+      <Button style={styles.button} text={button} onPress={handleSave} />
     </View>
   );
 };
@@ -77,11 +84,11 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     backgroundColor: WHITE,
+    justifyContent: 'space-between',
   },
-  label: {
+  title: {
     fontSize: 16,
     marginBottom: 15,
-    marginTop: 20,
     alignSelf: 'center',
   },
   input: {
@@ -102,6 +109,15 @@ const styles = StyleSheet.create({
   dateContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  close: {
+    alignSelf: 'flex-end',
+    marginVertical: 20,
+    fontSize: 20,
+  },
+  button: {
+    alignSelf: 'center',
+    marginBottom: 50,
   },
 });
 
