@@ -9,20 +9,21 @@ import {ActivityIndicator} from 'react-native';
 import {PURPLE} from './src/constants/colors';
 import {
   ADD_EXPENSE,
-  BlankScreen,
+  BLANK_SCREEN,
   HOME_TAB_SCREEN,
-  HOME_TABS,
+  MAIN_TABS,
   PROFILE_SCREEN,
   WELCOME_SCREEN,
 } from './src/constants/navigation';
 import {useUserStatus} from './src/hooks/useUserStatus';
 import AddExpense from './src/screens/AddExpense';
 import AddExpenseIcon from './src/components/AddExpenseTabIcon';
+import {NOOP} from './src/utils';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const HomeTabs = () => {
+const MainTabNavigator = () => {
   const {userName} = useUserStatus();
   return (
     <Tab.Navigator>
@@ -35,8 +36,8 @@ const HomeTabs = () => {
         }}
       />
       <Tab.Screen
-        name={'blank'}
-        component={BlankScreen}
+        name={BLANK_SCREEN}
+        component={NOOP}
         options={{
           tabBarLabel: '',
           tabBarIcon: AddExpenseIcon,
@@ -62,7 +63,7 @@ const HomeTabs = () => {
 const App = () => {
   const {userName, isReady} = useUserStatus();
 
-  const initialRouteName = userName.length === 0 ? WELCOME_SCREEN : HOME_TABS;
+  const initialRouteName = userName.length === 0 ? WELCOME_SCREEN : MAIN_TABS;
 
   if (!isReady) {
     return <ActivityIndicator size="large" color={PURPLE} />;
@@ -79,8 +80,8 @@ const App = () => {
           }}
         />
         <Stack.Screen
-          name={HOME_TABS}
-          component={HomeTabs}
+          name={MAIN_TABS}
+          component={MainTabNavigator}
           options={{
             headerShown: false,
           }}
