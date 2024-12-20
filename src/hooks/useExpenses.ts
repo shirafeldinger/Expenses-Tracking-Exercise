@@ -1,10 +1,13 @@
 import {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ExpenseSection} from '../types';
+import {useNavigation} from '@react-navigation/native';
+import {ADD_OR_EDIT_EXPENSE} from '../constants/navigation';
+import {AddOrEditScreenNavigationProp} from '../types/navigation';
 
 const useExpenses = () => {
   const [sections, setSections] = useState<ExpenseSection[]>([]);
-
+  const navigation = useNavigation<AddOrEditScreenNavigationProp>();
   const fetchExpenses = async () => {
     try {
       const existingSections = await AsyncStorage.getItem('expenses');
@@ -40,11 +43,23 @@ const useExpenses = () => {
     }
   };
 
+  const handleEditExpense = (dateKey: string, expenseIndex: number) => {
+    const expenseToEdit = sections.find(section => section.title === dateKey)
+      ?.data[expenseIndex];
+
+    if (expenseToEdit) {
+      navigation.navigate(ADD_OR_EDIT_EXPENSE, {
+        expense: expenseToEdit,
+        isEditMode: true,
+      });
+    }
+  };
+
   useEffect(() => {
     fetchExpenses();
   }, [sections]);
 
-  return {sections, handleDeleteExpense};
+  return {sections, handleDeleteExpense, handleEditExpense};
 };
 
 export default useExpenses;

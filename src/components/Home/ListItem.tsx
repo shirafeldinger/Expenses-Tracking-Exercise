@@ -11,17 +11,24 @@ type ListItemProps = {
 };
 
 const ListItem: React.FC<ListItemProps> = ({item, index, section}) => {
-  const {handleDeleteExpense} = useExpenses();
+  const {handleDeleteExpense, handleEditExpense} = useExpenses();
 
   return (
     <View style={styles.expenseItem}>
       <Text style={styles.expenseTitle}>{item.title}</Text>
       <Text style={styles.expenseAmount}>${item.amount.toFixed(2)}</Text>
-      <TouchableOpacity
-        style={styles.deleteButton}
-        onPress={() => handleDeleteExpense(section.title, index)}>
-        <Text style={styles.deleteText}>Delete</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => handleEditExpense(section.title, index)}>
+          <Text style={styles.editText}>Edit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.deleteButton}
+          onPress={() => handleDeleteExpense(section.title, index)}>
+          <Text style={styles.deleteText}>Delete</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -32,6 +39,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   expenseTitle: {
     fontSize: 16,
@@ -39,14 +47,27 @@ const styles = StyleSheet.create({
   expenseAmount: {
     fontSize: 16,
   },
-  deleteText: {
-    color: WHITE,
-    fontSize: 14,
+  buttonsContainer: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  editButton: {
+    backgroundColor: '#4CAF50',
+    padding: 8,
+    borderRadius: 5,
   },
   deleteButton: {
     backgroundColor: RED,
     padding: 8,
     borderRadius: 5,
+  },
+  editText: {
+    color: WHITE,
+    fontSize: 14,
+  },
+  deleteText: {
+    color: WHITE,
+    fontSize: 14,
   },
 });
 

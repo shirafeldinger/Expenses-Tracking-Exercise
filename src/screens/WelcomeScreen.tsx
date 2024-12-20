@@ -2,15 +2,10 @@ import React, {useState} from 'react';
 import {View, Text, TextInput, Alert, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from '../components/Button';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../types/navigation';
 import {WELCOME_SCREEN_TEXTS} from '../constants/texts';
 import {PURPLE} from '../constants/colors';
+import {WelcomeScreenNavigationProp} from '../types/navigation';
 
-type WelcomeScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Welcome'
->;
 interface WelcomeScreenProps {
   navigation: WelcomeScreenNavigationProp;
 }

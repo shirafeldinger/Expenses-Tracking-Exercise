@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ExpenseSection, NewExpense} from '../types';
+import {ExpenseItem, ExpenseSection} from '../types';
 
-export const saveExpense = async (newExpense: NewExpense) => {
+export const saveExpense = async (newExpense: ExpenseItem) => {
   try {
     const existingSections = await AsyncStorage.getItem('expenses');
     const sections = existingSections
@@ -33,4 +33,38 @@ export const formatDate = (date: string) => {
   const month = String(parsedDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based
   const year = parsedDate.getFullYear();
   return `${day}.${month}.${year}`;
+};
+
+export const updateExpense = async (
+  updatedExpense: ExpenseItem,
+  oldExpense: ExpenseItem,
+) => {
+  try {
+    const existingSections = await AsyncStorage.getItem('expenses');
+    const sections = existingSections
+      ? (JSON.parse(existingSections) as ExpenseSection[])
+      : [];
+
+    const sectionIndex = sections.findIndex(
+      section => section.title === oldExpense.date,
+    );
+
+    if (sectionIndex !== -1) {
+      const expenseIndex = sections[sectionIndex].data.findIndex(
+        expense => expense.title === oldExpense.title,
+      );
+
+      if (expenseIndex !== -1) {
+        sections[sectionIndex].data[expenseIndex] = {
+          ...sections[sectionIndex].data[expenseIndex],
+          ...updatedExpense,
+        };
+      }
+    }
+
+    // Save updated sections back to AsyncStorage
+    await AsyncStorage.setItem('expenses', JSON.stringify(sections));
+  } catch (error) {
+    console.error('Error updating expense:', error);
+  }
 };

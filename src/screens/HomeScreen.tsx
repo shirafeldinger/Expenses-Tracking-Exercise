@@ -24,7 +24,9 @@ const HomeScreen = () => {
       <SectionList
         sections={sections}
         keyExtractor={(item, index) => `${item.title}-${index}`}
-        renderItem={ListItem}
+        renderItem={({item, index, section}) => (
+          <ListItem item={item} index={index} section={section} />
+        )}
         renderSectionHeader={({section: {title}}) => (
           <Text style={styles.dateHeader}>{formatDate(title)}</Text>
         )}

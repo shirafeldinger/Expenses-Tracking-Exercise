@@ -1,12 +1,7 @@
-export type NewExpense = {
-  title: string;
-  amount: number;
-  date: string;
-};
-
 export type ExpenseItem = {
   title: string;
   amount: number;
+  date: string;
 };
 
 export type ExpenseSection = {

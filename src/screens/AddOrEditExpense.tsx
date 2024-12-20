@@ -1,26 +1,51 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {GREY, WHITE} from '../constants/colors';
-import {useNavigation} from '@react-navigation/native';
-import {saveExpense} from '../utils/addExpense';
+import {saveExpense, updateExpense} from '../utils/addExpense';
 import Button from '../components/Button';
 import {ADD_EXPENSE} from '../constants/texts';
+import {
+  AddOrEditScreenNavigationProp,
+  AddOrEditScreenRouteProp,
+} from '../types/navigation';
 
-const {titleText, titleInput, amountInput, dateText, button} = ADD_EXPENSE;
-const AddExpense = () => {
+const {titleText, titleInput, amountInput, dateText, button, editButton , editTitleText} = ADD_EXPENSE;
+
+interface AddOrEditScreenProps {
+  navigation: AddOrEditScreenNavigationProp;
+  route: AddOrEditScreenRouteProp;
+}
+
+const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
+  navigation,
+  route,
+}) => {
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState(new Date());
-  const navigation = useNavigation();
+  const {expense, isEditMode} = route.params || {};
+  useEffect(() => {
+    if (isEditMode && expense) {
+      setTitle(expense.title);
+      setAmount(expense.amount.toString());
+      setDate(new Date(expense.date));
+    }
+  }, [isEditMode, expense]);
 
   const handleSave = async () => {
     const isNotFormValid = !title || !amount || !date;
     if (isNotFormValid) {
       return;
     }
+
     const newExpense = createNewExpense();
-    await saveExpense(newExpense);
+
+    if (isEditMode) {
+      await updateExpense(newExpense, expense);
+    } else {
+      await saveExpense(newExpense);
+    }
     resetForm();
     navigation.goBack();
   };
@@ -43,7 +68,9 @@ const AddExpense = () => {
         <Text onPress={navigation.goBack} style={styles.close}>
           X
         </Text>
-        <Text style={styles.title}>{titleText}</Text>
+        <Text style={styles.title}>
+          {isEditMode ? editTitleText : titleText}
+        </Text>
 
         <TextInput
           style={styles.input}
@@ -74,7 +101,11 @@ const AddExpense = () => {
           />
         </View>
       </View>
-      <Button style={styles.button} text={button} onPress={handleSave} />
+      <Button
+        style={styles.button}
+        text={isEditMode ? editButton : button}
+        onPress={handleSave}
+      />
     </View>
   );
 };
@@ -121,4 +152,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddExpense;
+export default AddOrEditExpense;

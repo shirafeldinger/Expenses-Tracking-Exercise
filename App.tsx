@@ -8,7 +8,7 @@ import ProfileScreen from './src/screens/ProfileScreen';
 import {ActivityIndicator} from 'react-native';
 import {PURPLE} from './src/constants/colors';
 import {
-  ADD_EXPENSE,
+  ADD_OR_EDIT_EXPENSE,
   BLANK_SCREEN,
   HOME_TAB_SCREEN,
   MAIN_TABS,
@@ -16,9 +16,9 @@ import {
   WELCOME_SCREEN,
 } from './src/constants/navigation';
 import {useUserStatus} from './src/hooks/useUserStatus';
-import AddExpense from './src/screens/AddExpense';
 import AddExpenseIcon from './src/components/AddExpenseTabIcon';
 import {NOOP} from './src/utils';
+import AddOrEditExpense from './src/screens/AddOrEditExpense';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -45,7 +45,7 @@ const MainTabNavigator = () => {
         listeners={({navigation}) => ({
           tabPress: e => {
             e.preventDefault();
-            navigation.navigate(ADD_EXPENSE);
+            navigation.navigate(ADD_OR_EDIT_EXPENSE);
           },
         })}
       />
@@ -87,12 +87,12 @@ const App = () => {
           }}
         />
         <Stack.Screen
-          name={ADD_EXPENSE}
+          name={ADD_OR_EDIT_EXPENSE}
           options={{
             headerShown: false,
             presentation: 'modal',
           }}
-          component={AddExpense}
+          component={AddOrEditExpense}
         />
       </Stack.Navigator>
     </NavigationContainer>
