@@ -1,33 +1,26 @@
-import {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {ADD_OR_EDIT_EXPENSE} from '../constants/navigation';
 import {AddOrEditScreenNavigationProp} from '../types/navigation';
-import {addExpense, deleteExpense, setExpenses} from '../redux/slices/useSlice';
+import {addExpense, deleteExpense} from '../redux/slices/useSlice';
+import { ExpenseItem, ExpenseSection } from '../types';
 
-const useExpenses = (initialExpenses = []) => {
+const useExpenses = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation<AddOrEditScreenNavigationProp>();
 
-  const sections = useSelector(state => state.expenses.sections);
+  const sections = useSelector((state: { expenses: { sections: ExpenseSection[] } }) => state.expenses.sections);
 
-  useEffect(() => {
-    if (initialExpenses.length) {
-      dispatch(setExpenses(initialExpenses));
-    }
-  }, [dispatch, initialExpenses]);
-
-  const handleAddExpense = (dateKey, newExpense) => {
+  const handleAddExpense = (dateKey: string, newExpense: ExpenseItem): void => {
     dispatch(addExpense({dateKey, expense: newExpense}));
   };
 
-  const handleDeleteExpense = (dateKey, expenseIndex) => {
+  const handleDeleteExpense = (dateKey: string, expenseIndex: number): void => {
     dispatch(deleteExpense({dateKey, expenseIndex}));
   };
 
-  const handleEditExpense = (dateKey, expenseIndex) => {
-    const expenseToEdit = sections.find(section => section.title === dateKey)
-      ?.data[expenseIndex];
+  const handleEditExpense = (dateKey: string, expenseIndex: number): void => {
+    const expenseToEdit = sections.find(section => section.title === dateKey)?.data[expenseIndex];
 
     if (expenseToEdit) {
       navigation.navigate(ADD_OR_EDIT_EXPENSE, {

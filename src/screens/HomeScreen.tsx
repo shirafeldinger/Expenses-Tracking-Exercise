@@ -11,15 +11,16 @@ import {HOME_SCREEN_TEXTS} from '../constants/texts';
 import {totalExpensesCalculation} from '../utils/home';
 import {formatDate} from '../utils/addExpense';
 import EmptyList from '../components/Home/EmptyList';
-import useExpenses from '../hooks/useExpenses';
 import ListItem from '../components/Home/ListItem';
 import {addCommaAndDotToPrice} from '../utils';
 import FilterModal from '../components/Home/FilterModal';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 const {totalExpenses} = HOME_SCREEN_TEXTS;
 
 const HomeScreen = () => {
-  const {sections} = useExpenses();
+  const sections = useSelector((state: RootState) => state.expenses.sections);
 
   const totalPrice = totalExpensesCalculation(sections);
   const [isModalVisible, setModalVisible] = useState(false);
