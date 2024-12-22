@@ -59,7 +59,7 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
         updateExpense({updatedExpense: newExpense, oldExpense: expense}),
       );
     } else {
-      handleAddExpense(date, newExpense);
+      handleAddExpense(date.toString(), newExpense);
     }
     resetForm();
     navigation.goBack();
@@ -67,8 +67,8 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
 
   const createNewExpense = () => {
     const parsedAmount = parseFloat(amount);
-
-    return {title, amount: parsedAmount, date};
+const dateString = date.toString();
+    return {title, amount: parsedAmount, date: dateString};
   };
 
   const resetForm = () => {
