@@ -21,14 +21,17 @@ const {totalExpenses} = HOME_SCREEN_TEXTS;
 
 const HomeScreen = () => {
   const sections = useSelector((state: RootState) => state.expenses.sections);
+  const [filteredSections, setFilteredSections] = useState(sections);
 
-  const totalPrice = totalExpensesCalculation(sections);
+  const totalPrice = totalExpensesCalculation(filteredSections);
   const [isModalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
+  const applyFilters = newFilteredSections => {
+    setFilteredSections(newFilteredSections);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.totalContainer}>
@@ -43,7 +46,7 @@ const HomeScreen = () => {
       </TouchableOpacity>
 
       <SectionList
-        sections={sections}
+        sections={filteredSections}
         keyExtractor={(item, index) => `${item.title}-${index}`}
         renderItem={({item, index, section}) => (
           <ListItem item={item} index={index} section={section} />
@@ -54,7 +57,12 @@ const HomeScreen = () => {
         ListEmptyComponent={EmptyList}
       />
 
-      <FilterModal isModalVisible={isModalVisible} toggleModal={toggleModal} />
+      <FilterModal
+        isModalVisible={isModalVisible}
+        toggleModal={toggleModal}
+        sections={sections}
+        setFilteredSections={applyFilters}
+      />
     </View>
   );
 };

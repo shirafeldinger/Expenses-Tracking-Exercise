@@ -1,32 +1,60 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import {View, Text, StyleSheet, TextInput} from 'react-native';
 import Modal from 'react-native-modal';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Button from '../Button';
 import {GREY, WHITE} from '../../constants/colors';
 import {ADD_EXPENSE} from '../../constants/texts';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ExpenseSection } from '../../types';
 
 const {titleInput, amountInput, dateText} = ADD_EXPENSE;
-const FilterModal = ({isModalVisible, toggleModal}) => {
+
+interface FilterModalProps {
+  isModalVisible: boolean;
+  toggleModal: () => void;
+  sections: ExpenseSection[];
+  setFilteredSections: (filteredSections: any[]) => void;
+}
+
+const FilterModal: React.FC<FilterModalProps> = ({
+  isModalVisible,
+  toggleModal,
+  sections,
+  setFilteredSections,
+}) => {
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState(new Date());
 
-  const saveFiltersToAsyncStorage = async () => {
-    try {
-      const filters = () => {
-        const parsedAmount = parseFloat(amount);
-        const dateKey = date.toISOString().split('T')[0]; // Format date as YYYY-MM-DD
-        return {title, amount: parsedAmount, date: dateKey};
-      };
+  const filteredSections = useMemo(() => {
+    let filtered = [...sections];
 
-      await AsyncStorage.setItem('filters', JSON.stringify(filters));
-      toggleModal();
-    } catch (error) {
-      console.error('Error saving filters to AsyncStorage', error);
+    // Filter by title
+    if (title.length > 0) {
+      filtered = filtered.filter(
+        section => section.data[0].title.toLowerCase() === title.toLowerCase(),
+      );
     }
+
+    // Filter by amount
+    if (amount.length > 0) {
+      const amountValue = parseFloat(amount);
+      if (!isNaN(amountValue)) {
+        filtered = filtered.filter(section =>
+          section.data.some(expense => expense.amount === amountValue),
+        );
+      }
+    }
+    // Filter by date
+
+    return filtered;
+  }, [sections, title, amount, date]);
+
+  const saveFiltersToState = () => {
+    setFilteredSections(filteredSections);
+    toggleModal();
   };
+
   return (
     <Modal
       isVisible={isModalVisible}
@@ -64,10 +92,11 @@ const FilterModal = ({isModalVisible, toggleModal}) => {
             />
           </View>
         </View>
+
         <Button
           style={styles.button}
-          text={'filter'}
-          onPress={saveFiltersToAsyncStorage}
+          text={'Filter'}
+          onPress={saveFiltersToState}
         />
       </View>
     </Modal>
@@ -78,12 +107,6 @@ const styles = StyleSheet.create({
   modal: {
     justifyContent: 'flex-end',
     margin: 0,
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
   },
   container: {
     paddingHorizontal: 24,
@@ -113,11 +136,6 @@ const styles = StyleSheet.create({
   dateContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  close: {
-    alignSelf: 'flex-end',
-    marginVertical: 20,
-    fontSize: 20,
   },
   button: {
     alignSelf: 'center',
