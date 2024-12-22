@@ -17,7 +17,7 @@ import FilterModal from '../components/Home/FilterModal';
 import {useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
 
-const {totalExpenses} = HOME_SCREEN_TEXTS;
+const {totalExpenses, filters} = HOME_SCREEN_TEXTS;
 
 const HomeScreen = () => {
   const sections = useSelector((state: RootState) => state.expenses.sections);
@@ -37,12 +37,12 @@ const HomeScreen = () => {
       <View style={styles.totalContainer}>
         <Text style={styles.total}>{totalExpenses}</Text>
         <Text style={styles.totalAmount}>
-          {addCommaAndDotToPrice(totalPrice)}
+          ${addCommaAndDotToPrice(totalPrice)}
         </Text>
       </View>
 
       <TouchableOpacity onPress={toggleModal} style={styles.filterButton}>
-        <Text style={styles.filterButtonText}>Open Modal</Text>
+        <Text style={styles.filterButtonText}>{filters}</Text>
       </TouchableOpacity>
 
       <SectionList
@@ -88,15 +88,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   filterButton: {
-    padding: 10,
-    backgroundColor: '#008CBA',
-    borderRadius: 5,
+    width: 60,
+    backgroundColor: '#D9D9D9',
+    height: 28,
+    borderRadius: 60,
     margin: 10,
+    alignSelf: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   filterButtonText: {
-    color: '#fff',
-    fontSize: 16,
+    fontSize: 12,
+    fontWeight: '700',
   },
 });
 
