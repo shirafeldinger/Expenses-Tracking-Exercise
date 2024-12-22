@@ -6,7 +6,7 @@ import expensesReducer from '../slices/useSlice';
 const persistConfig = {
   key: 'expenses',
   storage: AsyncStorage,
-  whitelist: ['expenses'],
+  whitelist: ['sections'],
 };
 
 const persistedReducer = persistReducer(persistConfig, expensesReducer);
