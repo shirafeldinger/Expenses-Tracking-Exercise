@@ -20,6 +20,7 @@ const {totalExpenses} = HOME_SCREEN_TEXTS;
 
 const HomeScreen = () => {
   const {sections} = useExpenses();
+
   const totalPrice = totalExpensesCalculation(sections);
   const [isModalVisible, setModalVisible] = useState(false);
 

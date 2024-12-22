@@ -19,6 +19,9 @@ import {useUserStatus} from './src/hooks/useUserStatus';
 import AddExpenseIcon from './src/components/AddExpenseTabIcon';
 import {NOOP} from './src/utils';
 import AddOrEditExpense from './src/screens/AddOrEditExpense';
+import {Provider} from 'react-redux';
+import store, { persistor } from './src/redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -70,32 +73,36 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName={initialRouteName}>
-        <Stack.Screen
-          name={WELCOME_SCREEN}
-          component={WelcomeScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name={MAIN_TABS}
-          component={MainTabNavigator}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name={ADD_OR_EDIT_EXPENSE}
-          options={{
-            headerShown: false,
-            presentation: 'modal',
-          }}
-          component={AddOrEditExpense}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={initialRouteName}>
+          <Stack.Screen
+            name={WELCOME_SCREEN}
+            component={WelcomeScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name={MAIN_TABS}
+            component={MainTabNavigator}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name={ADD_OR_EDIT_EXPENSE}
+            options={{
+              headerShown: false,
+              presentation: 'modal',
+            }}
+            component={AddOrEditExpense}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 };
 

@@ -1,53 +1,31 @@
-import {useState, useEffect} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ExpenseSection} from '../types';
+import {useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {ADD_OR_EDIT_EXPENSE} from '../constants/navigation';
 import {AddOrEditScreenNavigationProp} from '../types/navigation';
+import {addExpense, deleteExpense, setExpenses} from '../redux/slices/useSlice';
 
-const useExpenses = () => {
-  const [sections, setSections] = useState<ExpenseSection[]>([]);
+const useExpenses = (initialExpenses = []) => {
+  const dispatch = useDispatch();
   const navigation = useNavigation<AddOrEditScreenNavigationProp>();
-  const fetchExpenses = async () => {
-    try {
-      const existingSections = await AsyncStorage.getItem('expenses');
-      if (existingSections) {
-        const parsedSections = JSON.parse(existingSections);
-        parsedSections.sort(
-          (a: ExpenseSection, b: ExpenseSection) =>
-            new Date(b.title).getTime() - new Date(a.title).getTime(),
-        );
-        setSections(parsedSections);
-      }
-    } catch (error) {
-      console.error('Error fetching expenses:', error);
+
+  const sections = useSelector(state => state.expenses.sections);
+
+  useEffect(() => {
+    if (initialExpenses.length) {
+      dispatch(setExpenses(initialExpenses));
     }
+  }, [dispatch, initialExpenses]);
+
+  const handleAddExpense = (dateKey, newExpense) => {
+    dispatch(addExpense({dateKey, expense: newExpense}));
   };
 
-  const handleDeleteExpense = async (dateKey: string, expenseIndex: number) => {
-    try {
-      const updatedSections = sections.map(section => {
-        if (section.title === dateKey) {
-          const updatedData = section.data.filter(
-            (_, index) => index !== expenseIndex,
-          );
-          return {...section, data: updatedData};
-        }
-        return section;
-      });
-
-      const filteredSections = updatedSections.filter(
-        section => section.data.length > 0,
-      );
-
-      setSections(filteredSections);
-      await AsyncStorage.setItem('expenses', JSON.stringify(filteredSections));
-    } catch (error) {
-      console.error('Error deleting expense:', error);
-    }
+  const handleDeleteExpense = (dateKey, expenseIndex) => {
+    dispatch(deleteExpense({dateKey, expenseIndex}));
   };
 
-  const handleEditExpense = (dateKey: string, expenseIndex: number) => {
+  const handleEditExpense = (dateKey, expenseIndex) => {
     const expenseToEdit = sections.find(section => section.title === dateKey)
       ?.data[expenseIndex];
 
@@ -59,11 +37,7 @@ const useExpenses = () => {
     }
   };
 
-  useEffect(() => {
-    fetchExpenses();
-  }, [sections]);
-
-  return {sections, handleDeleteExpense, handleEditExpense};
+  return {sections, handleAddExpense, handleDeleteExpense, handleEditExpense};
 };
 
 export default useExpenses;

@@ -2,13 +2,15 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {GREY, WHITE} from '../constants/colors';
-import {saveExpense, updateExpense} from '../utils/addExpense';
 import Button from '../components/Button';
 import {ADD_EXPENSE} from '../constants/texts';
 import {
   AddOrEditScreenNavigationProp,
   AddOrEditScreenRouteProp,
 } from '../types/navigation';
+import useExpenses from '../hooks/useExpenses';
+import {useDispatch} from 'react-redux';
+import {updateExpense} from '../redux/slices/useSlice';
 
 const {
   titleText,
@@ -33,6 +35,7 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState(new Date());
   const {expense, isEditMode} = route.params || {};
+  const dispatch = useDispatch();
   useEffect(() => {
     if (isEditMode && expense) {
       setTitle(expense.title);
@@ -41,7 +44,9 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
     }
   }, [isEditMode, expense]);
 
-  const handleSave = async () => {
+  const {handleAddExpense} = useExpenses();
+
+  const handleSave = () => {
     const isNotFormValid = !title || !amount || !date;
     if (isNotFormValid) {
       return;
@@ -50,9 +55,11 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
     const newExpense = createNewExpense();
 
     if (isEditMode) {
-      await updateExpense(newExpense, expense);
+      dispatch(
+        updateExpense({updatedExpense: newExpense, oldExpense: expense}),
+      );
     } else {
-      await saveExpense(newExpense);
+      handleAddExpense(date, newExpense);
     }
     resetForm();
     navigation.goBack();
@@ -60,8 +67,8 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
 
   const createNewExpense = () => {
     const parsedAmount = parseFloat(amount);
-    const dateKey = date.toISOString().split('T')[0]; // Format date as YYYY-MM-DD
-    return {title, amount: parsedAmount, date: dateKey};
+
+    return {title, amount: parsedAmount, date};
   };
 
   const resetForm = () => {
