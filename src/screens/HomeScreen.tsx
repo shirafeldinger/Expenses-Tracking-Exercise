@@ -14,8 +14,8 @@ import EmptyList from '../components/Home/EmptyList';
 import ListItem from '../components/Home/ListItem';
 import {addCommaAndDotToPrice} from '../utils';
 import FilterModal from '../components/Home/FilterModal';
-import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import {useSelector} from 'react-redux';
+import {RootState} from '../redux/store';
 
 const {totalExpenses} = HOME_SCREEN_TEXTS;
 

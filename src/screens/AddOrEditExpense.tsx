@@ -67,7 +67,7 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
 
   const createNewExpense = () => {
     const parsedAmount = parseFloat(amount);
-const dateString = date.toString();
+    const dateString = date.toString();
     return {title, amount: parsedAmount, date: dateString};
   };
 
