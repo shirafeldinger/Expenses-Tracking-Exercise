@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import { WHITE} from '../constants/colors';
+import {WHITE} from '../constants/colors';
 import Button from '../components/Button';
 import {ADD_EXPENSE} from '../constants/texts';
 import {
@@ -40,6 +40,7 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
     setDate,
     handleSave,
     errors,
+    clearError,
   } = useAddOrEditExpense(isEditMode, expense);
 
   return (
@@ -56,14 +57,20 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
           error={errors.title}
           placeholder={titleInput}
           value={title}
-          onChangeText={setTitle}
+          onChangeText={text => {
+            setTitle(text);
+            clearError('title');
+          }}
         />
 
         <Input
           error={errors.amount}
           placeholder={amountInput}
           value={amount}
-          onChangeText={setAmount}
+          onChangeText={text => {
+            setAmount(text);
+            clearError('amount');
+          }}
         />
         <DateInput date={date} setDate={setDate} dateText={dateText} />
       </View>

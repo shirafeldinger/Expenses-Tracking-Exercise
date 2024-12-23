@@ -21,15 +21,28 @@ const useAddOrEditExpense = (isEditMode: boolean, expense?: any) => {
       setDate(new Date(expense.date));
     }
   }, [isEditMode, expense]);
+  const validateAmount = (value: string) => {
+    const regex = /^\d+(\.\d+)?$/;
+    return regex.test(value.trim());
+  };
   const validateFields = () => {
     const newErrors = {
       title: title ? '' : 'Title is required',
-      amount: amount ? '' : 'Amount is required',
+      amount: validateAmount(amount)
+        ? ''
+        : 'Amount is required and must be a valid number',
     };
 
     setErrors(newErrors);
 
     return !newErrors.title && !newErrors.amount;
+  };
+
+  const clearError = (field: keyof typeof errors) => {
+    setErrors(prevErrors => ({
+      ...prevErrors,
+      [field]: '',
+    }));
   };
   const handleSave = (navigation: any) => {
     const isFormValid = validateFields();
@@ -70,6 +83,7 @@ const useAddOrEditExpense = (isEditMode: boolean, expense?: any) => {
     setDate,
     handleSave,
     errors,
+    clearError,
   };
 };
 
