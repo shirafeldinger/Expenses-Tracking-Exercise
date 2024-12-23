@@ -6,3 +6,4 @@ export const GREY = '#A6A6A6';
 export const RED = '#FF6347';
 export const GREEN = '#4CAF50';
 export const LIGHT_GREY = '#D9D9D9';
+export const BORDER_COLOR = '#DCDCDC';

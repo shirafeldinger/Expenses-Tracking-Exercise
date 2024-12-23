@@ -49,9 +49,11 @@ const HomeScreen = () => {
         </Text>
       </View>
 
-      <TouchableOpacity onPress={toggleModal} style={styles.filterButton}>
-        <Text style={styles.filterButtonText}>{filters}</Text>
-      </TouchableOpacity>
+      {!!filteredSections.length && (
+        <TouchableOpacity onPress={toggleModal} style={styles.filterButton}>
+          <Text style={styles.filterButtonText}>{filters}</Text>
+        </TouchableOpacity>
+      )}
 
       <SectionList
         sections={filteredSections}
