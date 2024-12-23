@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {ExpenseItem, ExpenseSection} from '../../types';
+import {compareDatesByDay} from '../../utils';
 
 interface ExpenseState {
   sections: ExpenseSection[];
@@ -15,13 +16,14 @@ const expenseSlice = createSlice({
   reducers: {
     addExpense: (state, action) => {
       const {dateKey, expense} = action.payload;
-      const sectionIndex = state.sections.findIndex(
-        section => section.title === dateKey,
+
+      const sectionIndex = state.sections.findIndex(section =>
+        compareDatesByDay(section.title, dateKey),
       );
       if (sectionIndex !== -1) {
         state.sections[sectionIndex].data.push(expense);
       } else {
-        state.sections.push({title: dateKey, data: [expense]});
+        state.sections.push({title: dateKey.toString(), data: [expense]});
       }
     },
     setExpenses: (state, action) => {

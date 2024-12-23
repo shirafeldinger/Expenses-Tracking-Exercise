@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, TextInput} from 'react-native';
 import Modal from 'react-native-modal';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Button from '../Button';
-import {GREY, WHITE} from '../../constants/colors';
+import {BLUE, BORDER_COLOR, GREY, WHITE} from '../../constants/colors';
 import {
   ADD_EXPENSE,
   FILTER_MODAL,
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     backgroundColor: WHITE,
     justifyContent: 'space-between',
+    borderRadius: 22,
   },
   title: {
     fontSize: 20,
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderBottomColor: GREY,
+    borderBottomColor: BORDER_COLOR,
     borderTopColor: 'transparent',
     borderEndColor: 'transparent',
     borderStartColor: 'transparent',
@@ -146,6 +147,7 @@ const styles = StyleSheet.create({
   },
   clearText: {
     fontSize: 16,
+    color: BLUE,
   },
   closeText: {
     fontSize: 20,

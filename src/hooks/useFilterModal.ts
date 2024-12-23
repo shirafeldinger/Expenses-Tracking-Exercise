@@ -1,5 +1,6 @@
 import {useState, useMemo} from 'react';
 import {ExpenseSection} from '../types';
+import {compareDatesByDay} from '../utils';
 
 const useFilterModal = (sections: ExpenseSection[]) => {
   const [title, setTitle] = useState('');
@@ -25,21 +26,8 @@ const useFilterModal = (sections: ExpenseSection[]) => {
     }
 
     if (date) {
-      const targetDateOnly = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-      );
       filtered = filtered.filter(section =>
-        section.data.some(expense => {
-          const expenseDate = new Date(expense.date);
-          const expenseDateOnly = new Date(
-            expenseDate.getFullYear(),
-            expenseDate.getMonth(),
-            expenseDate.getDate(),
-          );
-          return expenseDateOnly.getTime() === targetDateOnly.getTime();
-        }),
+        section.data.some(expense => compareDatesByDay(expense.date, date)),
       );
     }
 
