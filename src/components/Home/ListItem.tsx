@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {GREEN, RED, WHITE} from '../../constants/colors';
 import useExpenses from '../../hooks/useExpenses';
 import {ExpenseItem, ExpenseSection} from '../../types';
-import {addCommaAndDotToPrice} from '../../utils';
+import {formatCurrency} from '../../utils';
 
 type ListItemProps = {
   item: ExpenseItem;
@@ -18,7 +18,7 @@ const ListItem: React.FC<ListItemProps> = ({item, index, section}) => {
     <View style={styles.expenseItem}>
       <Text style={styles.expenseTitle}>{item.title}</Text>
       <Text style={styles.expenseAmount}>
-        ${addCommaAndDotToPrice(item.amount)}
+        {formatCurrency(item.amount)}
       </Text>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity

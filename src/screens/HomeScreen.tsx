@@ -16,7 +16,7 @@ import {totalExpensesCalculation} from '../utils/home';
 import {formatDate} from '../utils/addExpense';
 import EmptyList from '../components/Home/EmptyList';
 import ListItem from '../components/Home/ListItem';
-import {addCommaAndDotToPrice} from '../utils';
+import {formatCurrency} from '../utils';
 import FilterModal from '../components/Home/FilterModal';
 import {useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
@@ -27,12 +27,14 @@ const {totalExpenses, filters} = HOME_SCREEN_TEXTS;
 const HomeScreen = () => {
   const sections = useSelector((state: RootState) => state.expenses.sections);
   const [filteredSections, setFilteredSections] = useState(sections);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     setFilteredSections(sections);
   }, [sections]);
+
+
   const totalPrice = totalExpensesCalculation(sections);
-  const [isModalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -45,7 +47,7 @@ const HomeScreen = () => {
       <View style={styles.totalContainer}>
         <Text style={styles.total}>{totalExpenses}</Text>
         <Text style={styles.totalAmount}>
-          ${addCommaAndDotToPrice(totalPrice)}
+          {formatCurrency(totalPrice)}
         </Text>
       </View>
 
