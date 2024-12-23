@@ -4,21 +4,23 @@ import {useSelector} from 'react-redux';
 import useSignOut from '../hooks/useSignOut';
 import {RootState} from '../redux/store';
 import {BORDER_COLOR, WHITE} from '../constants/colors';
+import {PROFILE_TEXTS} from '../constants/texts';
 
+const {title, button} = PROFILE_TEXTS;
 const ProfileScreen = () => {
   const signOut = useSignOut();
   const expenseCount = useSelector(
-    (state: RootState) => state.expenses.sections.length
+    (state: RootState) => state.expenses.sections.length,
   );
 
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <Text style={styles.title}>Total Expenses Items</Text>
+        <Text style={styles.title}>{title}</Text>
         <Text style={styles.number}>{expenseCount}</Text>
       </View>
       <TouchableOpacity style={styles.row} onPress={signOut}>
-        <Text style={styles.signOutText}>Sign Out</Text>
+        <Text style={styles.signOutText}>{button}</Text>
       </TouchableOpacity>
     </View>
   );

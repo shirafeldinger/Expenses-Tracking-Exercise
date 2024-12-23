@@ -27,3 +27,8 @@ export const FILTER_MODAL = {
   clean: 'Clean',
   filter: 'Filter',
 };
+
+export const PROFILE_TEXTS = {
+  title: 'Total Expenses Item',
+  button: 'Sign Out',
+};
