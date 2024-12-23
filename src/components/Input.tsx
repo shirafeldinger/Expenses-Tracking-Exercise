@@ -31,11 +31,8 @@ const Input: React.FC<InputProps> = ({
 
 const styles = StyleSheet.create({
   input: {
-    borderWidth: 1,
+    borderBottomWidth: 1,
     borderBottomColor: GREY,
-    borderTopColor: 'transparent',
-    borderEndColor: 'transparent',
-    borderStartColor: 'transparent',
     padding: 8,
     fontSize: 16,
     marginBottom: 16,

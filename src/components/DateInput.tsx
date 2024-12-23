@@ -1,6 +1,6 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {BORDER_COLOR, GREY} from '../constants/colors';
+import {GREY} from '../constants/colors';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 interface DateInputProps {
@@ -41,11 +41,8 @@ const DateInput: React.FC<DateInputProps> = ({setDate, dateText, date}) => {
 
 const styles = StyleSheet.create({
   input: {
-    borderWidth: 1,
-    borderBottomColor: BORDER_COLOR,
-    borderTopColor: 'transparent',
-    borderEndColor: 'transparent',
-    borderStartColor: 'transparent',
+    borderBottomWidth: 1,
+    borderBottomColor: GREY,
     padding: 8,
     fontSize: 16,
     marginBottom: 16,
