@@ -13,10 +13,9 @@ const DateInput: React.FC<DateInputProps> = ({setDate, dateText, date}) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleDateChange = (_, selectedDate) => {
-    if (selectedDate) {
-      setDate(selectedDate);
-      setShowDatePicker(false); // Hide picker after date is selected
-    }
+    if (!selectedDate) return;
+    setDate(selectedDate);
+    setShowDatePicker(false);
   };
 
   return (
