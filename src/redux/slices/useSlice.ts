@@ -58,8 +58,8 @@ const expenseSlice = createSlice({
     ) => {
       const {updatedExpense, oldExpense} = action.payload;
 
-      const sectionIndex = state.sections.findIndex(
-        section => section.title === oldExpense.date,
+      const sectionIndex = state.sections.findIndex(section =>
+        compareDatesByDay(section.title, oldExpense.date,),
       );
 
       if (sectionIndex !== -1) {
