@@ -17,9 +17,7 @@ const ListItem: React.FC<ListItemProps> = ({item, index, section}) => {
   return (
     <View style={styles.expenseItem}>
       <Text style={styles.expenseTitle}>{item.title}</Text>
-      <Text style={styles.expenseAmount}>
-        {formatCurrency(item.amount)}
-      </Text>
+      <Text style={styles.expenseAmount}>{formatCurrency(item.amount)}</Text>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.editButton}

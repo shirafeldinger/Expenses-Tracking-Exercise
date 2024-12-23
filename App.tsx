@@ -10,6 +10,7 @@ import {PURPLE} from './src/constants/colors';
 import {
   ADD_OR_EDIT_EXPENSE,
   BLANK_SCREEN,
+  DEFAULT_BOTTOM_BAR_STYLE,
   HOME_TAB_SCREEN,
   MAIN_TABS,
   PROFILE_SCREEN,
@@ -35,7 +36,8 @@ const MainTabNavigator = () => {
         component={HomeScreen}
         options={{
           tabBarLabel: HOME_TAB_SCREEN,
-          title: `Welcome, ${userName}`,
+          title: userName,
+          ...DEFAULT_BOTTOM_BAR_STYLE,
         }}
       />
       <Tab.Screen
@@ -57,6 +59,7 @@ const MainTabNavigator = () => {
         component={ProfileScreen}
         options={{
           headerShown: false,
+          ...DEFAULT_BOTTOM_BAR_STYLE,
         }}
       />
     </Tab.Navigator>

@@ -33,7 +33,6 @@ const HomeScreen = () => {
     setFilteredSections(sections);
   }, [sections]);
 
-
   const totalPrice = totalExpensesCalculation(sections);
 
   const toggleModal = () => {
@@ -46,9 +45,7 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <View style={styles.totalContainer}>
         <Text style={styles.total}>{totalExpenses}</Text>
-        <Text style={styles.totalAmount}>
-          {formatCurrency(totalPrice)}
-        </Text>
+        <Text style={styles.totalAmount}>{formatCurrency(totalPrice)}</Text>
       </View>
 
       {!!filteredSections.length && (
