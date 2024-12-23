@@ -4,12 +4,14 @@ import {GREEN, RED, WHITE} from '../../constants/colors';
 import useExpenses from '../../hooks/useExpenses';
 import {ExpenseItem, ExpenseSection} from '../../types';
 import {formatCurrency} from '../../utils';
+import {HOME_SCREEN_TEXTS} from '../../constants/texts';
 
 type ListItemProps = {
   item: ExpenseItem;
   index: number;
   section: ExpenseSection;
 };
+const {listItem} = HOME_SCREEN_TEXTS;
 
 const ListItem: React.FC<ListItemProps> = ({item, index, section}) => {
   const {handleDeleteExpense, handleEditExpense} = useExpenses();
@@ -22,12 +24,12 @@ const ListItem: React.FC<ListItemProps> = ({item, index, section}) => {
         <TouchableOpacity
           style={styles.editButton}
           onPress={() => handleEditExpense(section.title, index)}>
-          <Text style={styles.editText}>Edit</Text>
+          <Text style={styles.editText}>{listItem.edit}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.deleteButton}
           onPress={() => handleDeleteExpense(section.title, index)}>
-          <Text style={styles.deleteText}>Delete</Text>
+          <Text style={styles.deleteText}>{listItem.delete}</Text>
         </TouchableOpacity>
       </View>
     </View>

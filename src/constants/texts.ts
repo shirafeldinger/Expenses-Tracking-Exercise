@@ -10,6 +10,10 @@ export const HOME_SCREEN_TEXTS = {
   emptyList: `No expenses available.
 You can add one pressing the + button`,
   filters: 'Filters',
+  listItem: {
+    edit: 'Edit',
+    delete: 'Delete',
+  },
 };
 
 export const ADD_EXPENSE = {
