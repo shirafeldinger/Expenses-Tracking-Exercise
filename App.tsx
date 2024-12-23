@@ -37,6 +37,7 @@ const MainTabNavigator = () => {
         options={{
           tabBarLabel: HOME_TAB_SCREEN,
           title: userName,
+          headerTitleAlign: 'center',
           ...DEFAULT_BOTTOM_BAR_STYLE,
         }}
       />

@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 10,
-    width: '100%',
+    width: 255,
     borderRadius: 5,
   },
 });

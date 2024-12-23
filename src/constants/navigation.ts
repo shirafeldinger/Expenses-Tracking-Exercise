@@ -8,4 +8,5 @@ export const BLANK_SCREEN = 'blank';
 export const DEFAULT_BOTTOM_BAR_STYLE = {
   tabBarIcon: () => null,
   tabBarLabelStyle: {fontSize: 13},
+  tabBarLabelPosition: 'beside-icon',
 };

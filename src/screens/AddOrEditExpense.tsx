@@ -43,6 +43,7 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
     clearError,
   } = useAddOrEditExpense(isEditMode, expense);
 
+  const buttonText = isEditMode ? editButton : button;
   return (
     <View style={styles.container}>
       <View>
@@ -76,7 +77,7 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
       </View>
       <Button
         style={styles.button}
-        text={isEditMode ? editButton : button}
+        text={buttonText}
         onPress={() => handleSave(navigation)}
       />
     </View>
