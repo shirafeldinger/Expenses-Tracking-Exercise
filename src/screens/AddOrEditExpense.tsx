@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {GREY, WHITE} from '../constants/colors';
@@ -8,9 +8,7 @@ import {
   AddOrEditScreenNavigationProp,
   AddOrEditScreenRouteProp,
 } from '../types/navigation';
-import useExpenses from '../hooks/useExpenses';
-import {useDispatch} from 'react-redux';
-import {updateExpense} from '../redux/slices/useSlice';
+import useAddOrEditExpense from '../hooks/useAddOrEdit';
 
 const {
   titleText,
@@ -31,51 +29,16 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
   navigation,
   route,
 }) => {
-  const [title, setTitle] = useState('');
-  const [amount, setAmount] = useState('');
-  const [date, setDate] = useState(new Date());
   const {expense, isEditMode} = route.params || {};
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (isEditMode && expense) {
-      setTitle(expense.title);
-      setAmount(expense.amount.toString());
-      setDate(new Date(expense.date));
-    }
-  }, [isEditMode, expense]);
-
-  const {handleAddExpense} = useExpenses();
-
-  const handleSave = () => {
-    const isNotFormValid = !title || !amount || !date;
-    if (isNotFormValid) {
-      return;
-    }
-
-    const newExpense = createNewExpense();
-
-    if (isEditMode) {
-      dispatch(
-        updateExpense({updatedExpense: newExpense, oldExpense: expense}),
-      );
-    } else {
-      handleAddExpense(date.toString(), newExpense);
-    }
-    resetForm();
-    navigation.goBack();
-  };
-
-  const createNewExpense = () => {
-    const parsedAmount = parseFloat(amount);
-    const dateString = date.toString();
-    return {title, amount: parsedAmount, date: dateString};
-  };
-
-  const resetForm = () => {
-    setTitle('');
-    setAmount('');
-    setDate(new Date());
-  };
+  const {
+    title,
+    setTitle,
+    amount,
+    setAmount,
+    date,
+    setDate,
+    handleSave,
+  } = useAddOrEditExpense(isEditMode, expense);
 
   return (
     <View style={styles.container}>
@@ -119,7 +82,7 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
       <Button
         style={styles.button}
         text={isEditMode ? editButton : button}
-        onPress={handleSave}
+        onPress={() => handleSave(navigation)}
       />
     </View>
   );
