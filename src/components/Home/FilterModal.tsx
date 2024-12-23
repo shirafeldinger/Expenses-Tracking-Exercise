@@ -1,14 +1,19 @@
-import React, {useState, useMemo} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet, TextInput} from 'react-native';
 import Modal from 'react-native-modal';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Button from '../Button';
 import {GREY, WHITE} from '../../constants/colors';
-import {ADD_EXPENSE, HOME_SCREEN_TEXTS} from '../../constants/texts';
+import {
+  ADD_EXPENSE,
+  FILTER_MODAL,
+  HOME_SCREEN_TEXTS,
+} from '../../constants/texts';
 import {ExpenseSection} from '../../types';
+import useFilterModal from '../../hooks/useFilterModal';
 
 const {titleInput, amountInput, dateText} = ADD_EXPENSE;
-
+const {x, clean, filter} = FILTER_MODAL;
 interface FilterModalProps {
   isModalVisible: boolean;
   toggleModal: () => void;
@@ -23,50 +28,8 @@ const FilterModal: React.FC<FilterModalProps> = ({
   sections,
   setFilteredSections,
 }) => {
-  const [title, setTitle] = useState('');
-  const [amount, setAmount] = useState('');
-  const [date, setDate] = useState(new Date());
-
-  const filteredSections = useMemo(() => {
-    let filtered = [...sections];
-
-    if (title) {
-      filtered = filtered.filter(
-        section => section.data[0].title.toLowerCase() === title.toLowerCase(),
-      );
-    }
-
-    if (amount) {
-      const amountValue = parseFloat(amount);
-      if (!isNaN(amountValue)) {
-        filtered = filtered.filter(section =>
-          section.data.some(expense => expense.amount === amountValue),
-        );
-      }
-    }
-
-    if (date) {
-      const targetDateOnly = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-      );
-      filtered = filtered.filter(section =>
-        section.data.some(expense => {
-          const expenseDate = new Date(expense.date);
-          const expenseDateOnly = new Date(
-            expenseDate.getFullYear(),
-            expenseDate.getMonth(),
-            expenseDate.getDate(),
-          );
-          return expenseDateOnly.getTime() === targetDateOnly.getTime();
-        }),
-      );
-    }
-
-    return filtered;
-  }, [sections, title, amount, date]);
-
+  const {title, setTitle, amount, setAmount, date, setDate, filteredSections} =
+    useFilterModal(sections);
   const saveFiltersToState = () => {
     setFilteredSections(filteredSections);
     toggleModal();
@@ -89,11 +52,11 @@ const FilterModal: React.FC<FilterModalProps> = ({
         <View>
           <View style={styles.header}>
             <Text onPress={clearFilters} style={styles.clearText}>
-              Clean
+              {clean}
             </Text>
             <Text style={styles.title}>{filters}</Text>
             <Text onPress={toggleModal} style={styles.closeText}>
-              X
+              {x}
             </Text>
           </View>
 
@@ -129,7 +92,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
 
         <Button
           style={styles.button}
-          text={'Filter'}
+          text={filter}
           onPress={saveFiltersToState}
         />
       </View>

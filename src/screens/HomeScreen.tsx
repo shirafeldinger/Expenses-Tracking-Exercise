@@ -6,7 +6,11 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import {SECTION_HEADER_BACKGROUND, WHITE} from '../constants/colors';
+import {
+  LIGHT_GREY,
+  SECTION_HEADER_BACKGROUND,
+  WHITE,
+} from '../constants/colors';
 import {HOME_SCREEN_TEXTS} from '../constants/texts';
 import {totalExpensesCalculation} from '../utils/home';
 import {formatDate} from '../utils/addExpense';
@@ -16,6 +20,7 @@ import {addCommaAndDotToPrice} from '../utils';
 import FilterModal from '../components/Home/FilterModal';
 import {useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
+import {ExpenseSection} from '../types';
 
 const {totalExpenses, filters} = HOME_SCREEN_TEXTS;
 
@@ -29,7 +34,7 @@ const HomeScreen = () => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-  const applyFilters = newFilteredSections => {
+  const applyFilters = (newFilteredSections: ExpenseSection[]) => {
     setFilteredSections(newFilteredSections);
   };
   return (
@@ -89,7 +94,7 @@ const styles = StyleSheet.create({
   },
   filterButton: {
     width: 60,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: LIGHT_GREY,
     height: 28,
     borderRadius: 60,
     margin: 10,

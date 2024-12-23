@@ -21,3 +21,9 @@ export const ADD_EXPENSE = {
   button: 'Create',
   editButton: 'Edit',
 };
+
+export const FILTER_MODAL = {
+  x: 'X',
+  clean: 'Clean',
+  filter: 'Filter',
+};
