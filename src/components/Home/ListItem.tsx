@@ -15,8 +15,7 @@ const ListItem: React.FC<ListItemProps> = ({item, index, section}) => {
   const {handleDeleteExpense, handleEditExpense} = useExpenses();
   const showBorderBottom = index < section.data.length - 1;
   return (
-    <View
-      style={[styles.expenseItem, showBorderBottom && styles.border]}>
+    <View style={[styles.expenseItem, showBorderBottom && styles.border]}>
       <Text style={styles.expenseTitle}>{item.title}</Text>
       <Text style={styles.expenseAmount}>{formatCurrency(item.amount)}</Text>
       <View style={styles.buttonsContainer}>
@@ -70,9 +69,9 @@ const styles = StyleSheet.create({
     color: WHITE,
     fontSize: 14,
   },
-  border:{
+  border: {
     borderBottomWidth: 0.5,
-  }
+  },
 });
 
 export default ListItem;

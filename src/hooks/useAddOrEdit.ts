@@ -9,6 +9,10 @@ const useAddOrEditExpense = (isEditMode: boolean, expense?: any) => {
   const [date, setDate] = useState(new Date());
   const dispatch = useDispatch();
   const {handleAddExpense} = useExpenses();
+  const [errors, setErrors] = useState({
+    title: '',
+    amount: '',
+  });
 
   useEffect(() => {
     if (isEditMode && expense) {
@@ -17,12 +21,20 @@ const useAddOrEditExpense = (isEditMode: boolean, expense?: any) => {
       setDate(new Date(expense.date));
     }
   }, [isEditMode, expense]);
+  const validateFields = () => {
+    const newErrors = {
+      title: title ? '' : 'Title is required',
+      amount: amount ? '' : 'Amount is required',
+    };
 
+    setErrors(newErrors);
+
+    return !newErrors.title && !newErrors.amount;
+  };
   const handleSave = (navigation: any) => {
-    const isNotFormValid = !title || !amount || !date;
-    if (isNotFormValid) {
-      return;
-    }
+    const isFormValid = validateFields();
+
+    if (!isFormValid && !isEditMode) return;
 
     const newExpense = createNewExpense();
 
@@ -57,6 +69,7 @@ const useAddOrEditExpense = (isEditMode: boolean, expense?: any) => {
     date,
     setDate,
     handleSave,
+    errors,
   };
 };
 

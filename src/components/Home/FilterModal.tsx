@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import Button from '../Button';
-import {BLUE, BORDER_COLOR, GREY, WHITE} from '../../constants/colors';
+import {BLUE, WHITE} from '../../constants/colors';
 import {
   ADD_EXPENSE,
   FILTER_MODAL,
@@ -11,6 +10,8 @@ import {
 } from '../../constants/texts';
 import {ExpenseSection} from '../../types';
 import useFilterModal from '../../hooks/useFilterModal';
+import Input from '../Input';
+import DateInput from '../DateInput';
 
 const {titleInput, amountInput, dateText} = ADD_EXPENSE;
 const {x, clean, filter} = FILTER_MODAL;
@@ -60,34 +61,18 @@ const FilterModal: React.FC<FilterModalProps> = ({
             </Text>
           </View>
 
-          <TextInput
-            style={styles.input}
+          <Input
             placeholder={titleInput}
             value={title}
             onChangeText={setTitle}
-            placeholderTextColor={GREY}
           />
-
-          <TextInput
-            style={styles.input}
+          <Input
             placeholder={amountInput}
-            keyboardType="numeric"
             value={amount}
             onChangeText={setAmount}
-            placeholderTextColor={GREY}
           />
 
-          <View style={[styles.input, styles.dateContainer]}>
-            <Text style={styles.dateLabel}>{dateText}</Text>
-            <DateTimePicker
-              value={date}
-              mode="date"
-              display="default"
-              onChange={(event, selectedDate) => {
-                if (selectedDate) setDate(selectedDate);
-              }}
-            />
-          </View>
+          <DateInput date={date} setDate={setDate} dateText={dateText} />
         </View>
 
         <Button
@@ -115,25 +100,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 15,
     alignSelf: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderBottomColor: BORDER_COLOR,
-    borderTopColor: 'transparent',
-    borderEndColor: 'transparent',
-    borderStartColor: 'transparent',
-    padding: 8,
-    fontSize: 16,
-    marginBottom: 16,
-  },
-  dateLabel: {
-    fontSize: 16,
-    color: GREY,
-    marginRight: 10,
-  },
-  dateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
   },
   button: {
     alignSelf: 'center',

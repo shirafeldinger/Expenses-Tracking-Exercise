@@ -1,7 +1,6 @@
 import React from 'react';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import {GREY, WHITE} from '../constants/colors';
+import {View, Text, StyleSheet} from 'react-native';
+import { WHITE} from '../constants/colors';
 import Button from '../components/Button';
 import {ADD_EXPENSE} from '../constants/texts';
 import {
@@ -9,6 +8,8 @@ import {
   AddOrEditScreenRouteProp,
 } from '../types/navigation';
 import useAddOrEditExpense from '../hooks/useAddOrEdit';
+import Input from '../components/Input';
+import DateInput from '../components/DateInput';
 
 const {
   titleText,
@@ -30,8 +31,16 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
   route,
 }) => {
   const {expense, isEditMode} = route.params || {};
-  const {title, setTitle, amount, setAmount, date, setDate, handleSave} =
-    useAddOrEditExpense(isEditMode, expense);
+  const {
+    title,
+    setTitle,
+    amount,
+    setAmount,
+    date,
+    setDate,
+    handleSave,
+    errors,
+  } = useAddOrEditExpense(isEditMode, expense);
 
   return (
     <View style={styles.container}>
@@ -43,34 +52,20 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
           {isEditMode ? editTitleText : titleText}
         </Text>
 
-        <TextInput
-          style={styles.input}
+        <Input
+          error={errors.title}
           placeholder={titleInput}
           value={title}
           onChangeText={setTitle}
-          placeholderTextColor={GREY}
         />
 
-        <TextInput
-          style={styles.input}
+        <Input
+          error={errors.amount}
           placeholder={amountInput}
-          keyboardType="numeric"
           value={amount}
           onChangeText={setAmount}
-          placeholderTextColor={GREY}
         />
-
-        <View style={[styles.input, styles.dateContainer]}>
-          <Text style={styles.dateLabel}>{dateText}</Text>
-          <DateTimePicker
-            value={date}
-            mode="date"
-            display="default"
-            onChange={(event, selectedDate) => {
-              if (selectedDate) setDate(selectedDate);
-            }}
-          />
-        </View>
+        <DateInput date={date} setDate={setDate} dateText={dateText} />
       </View>
       <Button
         style={styles.button}
@@ -92,25 +87,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 15,
     alignSelf: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderBottomColor: GREY,
-    borderTopColor: 'transparent',
-    borderEndColor: 'transparent',
-    borderStartColor: 'transparent',
-    padding: 8,
-    fontSize: 16,
-    marginBottom: 16,
-  },
-  dateLabel: {
-    fontSize: 16,
-    color: GREY,
-    marginRight: 10,
-  },
-  dateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
   },
   close: {
     alignSelf: 'flex-end',
