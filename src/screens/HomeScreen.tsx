@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -28,7 +28,10 @@ const HomeScreen = () => {
   const sections = useSelector((state: RootState) => state.expenses.sections);
   const [filteredSections, setFilteredSections] = useState(sections);
 
-  const totalPrice = totalExpensesCalculation(filteredSections);
+  useEffect(() => {
+    setFilteredSections(sections);
+  }, [sections]);
+  const totalPrice = totalExpensesCalculation(sections);
   const [isModalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {

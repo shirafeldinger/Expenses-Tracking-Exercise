@@ -1,5 +1,5 @@
 import {useState, useMemo} from 'react';
-import { ExpenseSection } from '../types';
+import {ExpenseSection} from '../types';
 
 const useFilterModal = (sections: ExpenseSection[]) => {
   const [title, setTitle] = useState('');

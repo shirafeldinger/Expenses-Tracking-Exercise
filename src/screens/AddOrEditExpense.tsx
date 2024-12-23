@@ -30,15 +30,8 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
   route,
 }) => {
   const {expense, isEditMode} = route.params || {};
-  const {
-    title,
-    setTitle,
-    amount,
-    setAmount,
-    date,
-    setDate,
-    handleSave,
-  } = useAddOrEditExpense(isEditMode, expense);
+  const {title, setTitle, amount, setAmount, date, setDate, handleSave} =
+    useAddOrEditExpense(isEditMode, expense);
 
   return (
     <View style={styles.container}>
