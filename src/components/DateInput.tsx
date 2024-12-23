@@ -17,7 +17,7 @@ const DateInput: React.FC<DateInputProps> = ({setDate, dateText, date}) => {
         value={date}
         mode="date"
         display="default"
-        onChange={(event, selectedDate) => {
+        onChange={(_, selectedDate) => {
           if (selectedDate) setDate(selectedDate);
         }}
       />

@@ -48,11 +48,9 @@ const HomeScreen = () => {
         <Text style={styles.totalAmount}>{formatCurrency(totalPrice)}</Text>
       </View>
 
-      {!!filteredSections.length && (
         <TouchableOpacity onPress={toggleModal} style={styles.filterButton}>
           <Text style={styles.filterButtonText}>{filters}</Text>
         </TouchableOpacity>
-      )}
 
       <SectionList
         sections={filteredSections}
