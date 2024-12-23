@@ -47,6 +47,7 @@ const MainTabNavigator = () => {
         options={{
           tabBarLabel: '',
           tabBarIcon: AddExpenseIcon,
+          tabBarIconStyle: {marginBottom: 30},
         }}
         listeners={({navigation}) => ({
           tabPress: e => {
