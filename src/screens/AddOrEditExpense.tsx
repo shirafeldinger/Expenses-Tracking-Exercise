@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {WHITE} from '../constants/colors';
 import Button from '../components/Button';
 import {ADD_EXPENSE} from '../constants/texts';
@@ -47,9 +47,9 @@ const AddOrEditExpense: React.FC<AddOrEditScreenProps> = ({
   return (
     <View style={styles.container}>
       <View>
-        <Text onPress={navigation.goBack} style={styles.close}>
-          X
-        </Text>
+        <Pressable onPress={navigation.goBack}>
+          <Text style={styles.close}>X</Text>
+        </Pressable>
         <Text style={styles.title}>
           {isEditMode ? editTitleText : titleText}
         </Text>
