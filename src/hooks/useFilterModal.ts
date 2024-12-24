@@ -7,22 +7,22 @@ const useFilterModal = (sections: ExpenseSection[]) => {
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState(new Date());
   const filterSections = () => {
-    const flatData = sections.flatMap(section =>
+    let filteredData = sections.flatMap(section =>
       section.data.map(expense => ({
         ...expense,
         sectionTitle: section.title, // Preserve section title for later
       })),
     );
 
-    let filteredData = flatData;
 
     if (title) {
       filteredData = filteredData.filter(expense => {
         const normalizedTitle = expense.title.trim().toLowerCase();
-        const normalizedFilterTitle = title.trim().toLowerCase();
+        const normalizedFilterTitle = title.trim().toLowerCase();                
         return normalizedTitle.includes(normalizedFilterTitle); // Use includes for partial matching
       });
     }
+    
 
     if (amount) {
       const amountValue = parseFloat(amount);
@@ -37,8 +37,7 @@ const useFilterModal = (sections: ExpenseSection[]) => {
       filteredData = filteredData.filter(expense =>
         compareDatesByDay(expense.date, date),
       );
-    }
-
+    }    
     const filteredSections = sections
       .map(section => {
         const sectionData = filteredData.filter(
