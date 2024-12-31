@@ -1,15 +1,15 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
-import {WHITE} from '../constants/colors';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Button from '../components/Button';
-import {ADD_EXPENSE} from '../constants/texts';
+import DateInput from '../components/DateInput';
+import Input from '../components/Input';
+import { WHITE } from '../constants/colors';
+import { ADD_EXPENSE } from '../constants/texts';
+import useAddOrEditExpense from '../hooks/useAddOrEdit';
 import {
   AddOrEditScreenNavigationProp,
   AddOrEditScreenRouteProp,
 } from '../types/navigation';
-import useAddOrEditExpense from '../hooks/useAddOrEdit';
-import Input from '../components/Input';
-import DateInput from '../components/DateInput';
 
 const {
   titleText,

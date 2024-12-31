@@ -1,6 +1,7 @@
-import React, {Dispatch, SetStateAction} from 'react';
-import {StyleSheet, Text, TextInput} from 'react-native';
-import {GREY} from '../constants/colors';
+import React, { Dispatch, SetStateAction } from 'react';
+import { StyleSheet, Text, TextInput } from 'react-native';
+import { GREY } from '../constants/colors';
+import { ADD_EXPENSE } from '../constants/texts';
 
 interface InputProps {
   onChangeText: Dispatch<SetStateAction<string>>;
@@ -8,7 +9,7 @@ interface InputProps {
   placeholder: string;
   value: string;
 }
-
+const {amountInput} = ADD_EXPENSE;
 const Input: React.FC<InputProps> = ({
   onChangeText,
   error,
@@ -21,6 +22,7 @@ const Input: React.FC<InputProps> = ({
         style={styles.input}
         placeholder={placeholder}
         value={value}
+        keyboardType={placeholder === amountInput ? 'numeric': 'default'}
         onChangeText={onChangeText}
         placeholderTextColor={GREY}
       />

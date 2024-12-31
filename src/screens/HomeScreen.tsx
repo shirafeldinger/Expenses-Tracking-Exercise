@@ -1,26 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
   SectionList,
   StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
+import { useSelector } from 'react-redux';
+import EmptyList from '../components/Home/EmptyList';
+import FilterModal from '../components/Home/FilterModal';
+import ListItem from '../components/Home/ListItem';
 import {
   LIGHT_GREY,
   SECTION_HEADER_BACKGROUND,
   WHITE,
 } from '../constants/colors';
-import {HOME_SCREEN_TEXTS} from '../constants/texts';
-import {totalExpensesCalculation} from '../utils/home';
-import {formatDate} from '../utils/addExpense';
-import EmptyList from '../components/Home/EmptyList';
-import ListItem from '../components/Home/ListItem';
-import {formatCurrency} from '../utils';
-import FilterModal from '../components/Home/FilterModal';
-import {useSelector} from 'react-redux';
-import {RootState} from '../redux/store';
-import {ExpenseSection} from '../types';
+import { HOME_SCREEN_TEXTS } from '../constants/texts';
+import { RootState } from '../redux/store';
+import { ExpenseSection } from '../types';
+import { formatCurrency } from '../utils';
+import { totalExpensesCalculation } from '../utils/home';
 
 const {totalExpenses, filters} = HOME_SCREEN_TEXTS;
 
@@ -28,6 +27,9 @@ const HomeScreen = () => {
   const sections = useSelector((state: RootState) => state.expenses.sections);
   const [filteredSections, setFilteredSections] = useState(sections);
   const [isModalVisible, setModalVisible] = useState(false);
+
+  console.log(sections);
+  
 
   useEffect(() => {
     setFilteredSections(sections);
@@ -59,7 +61,7 @@ const HomeScreen = () => {
           <ListItem item={item} index={index} section={section} />
         )}
         renderSectionHeader={({section: {title}}) => (
-          <Text style={styles.dateHeader}>{formatDate(title)}</Text>
+          <Text style={styles.dateHeader}>{title}</Text>
         )}
         ListEmptyComponent={EmptyList}
       />

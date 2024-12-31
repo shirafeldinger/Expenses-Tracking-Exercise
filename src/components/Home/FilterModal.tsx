@@ -1,17 +1,17 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Modal from 'react-native-modal';
-import Button from '../Button';
-import {BLUE, WHITE} from '../../constants/colors';
+import { BLUE, WHITE } from '../../constants/colors';
 import {
   ADD_EXPENSE,
   FILTER_MODAL,
   HOME_SCREEN_TEXTS,
 } from '../../constants/texts';
-import {ExpenseSection} from '../../types';
 import useFilterModal from '../../hooks/useFilterModal';
-import Input from '../Input';
+import { ExpenseSection } from '../../types';
+import Button from '../Button';
 import DateInput from '../DateInput';
+import Input from '../Input';
 
 const {titleInput, amountInput, dateText} = ADD_EXPENSE;
 const {x, clean, filter} = FILTER_MODAL;
@@ -39,7 +39,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
   const clearFilters = () => {
     setTitle('');
     setAmount('');
-    setDate(new Date());
+    setDate('');
     setFilteredSections(sections);
     toggleModal();
   };

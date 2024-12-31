@@ -1,12 +1,12 @@
-import {useState, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
-import {updateExpense} from '../redux/slices/useSlice';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateExpense } from '../redux/slices/useSlice';
 import useExpenses from './useExpenses';
 
 const useAddOrEditExpense = (isEditMode: boolean, expense?: any) => {
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState('');
   const dispatch = useDispatch();
   const {handleAddExpense} = useExpenses();
   const [errors, setErrors] = useState({
@@ -18,7 +18,7 @@ const useAddOrEditExpense = (isEditMode: boolean, expense?: any) => {
     if (isEditMode && expense) {
       setTitle(expense.title);
       setAmount(expense.amount.toString());
-      setDate(new Date(expense.date));
+      setDate(expense.date);
     }
   }, [isEditMode, expense]);
   const validateAmount = (value: string) => {
@@ -52,11 +52,12 @@ const useAddOrEditExpense = (isEditMode: boolean, expense?: any) => {
     const newExpense = createNewExpense();
 
     if (isEditMode) {
+      
       dispatch(
         updateExpense({updatedExpense: newExpense, oldExpense: expense}),
       );
     } else {
-      handleAddExpense(date.toString(), newExpense);
+      handleAddExpense(date, newExpense);
     }
     resetForm();
     navigation.goBack();
@@ -64,14 +65,14 @@ const useAddOrEditExpense = (isEditMode: boolean, expense?: any) => {
 
   const createNewExpense = () => {
     const parsedAmount = parseFloat(amount);
-    const dateString = date.toString();
-    return {title, amount: parsedAmount, date: dateString};
+
+    return {title, amount: parsedAmount, date};
   };
 
   const resetForm = () => {
     setTitle('');
     setAmount('');
-    setDate(new Date());
+    setDate('');
   };
 
   return {

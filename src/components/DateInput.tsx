@@ -1,20 +1,24 @@
-import React, {Dispatch, SetStateAction, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {GREY} from '../constants/colors';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { GREY } from '../constants/colors';
 
 interface DateInputProps {
-  setDate: Dispatch<SetStateAction<Date>>;
+  setDate: Dispatch<SetStateAction<string>>;
   dateText: string;
-  date: Date;
+  date: string;
 }
 
-const DateInput: React.FC<DateInputProps> = ({setDate, dateText, date}) => {
+const DateInput: React.FC<DateInputProps> = ({ setDate, dateText, date }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  const handleDateChange = (_, selectedDate) => {
+  const convertToDate = (dateStr) => {
+    const [day, month, year] = dateStr.split('.'); 
+    return new Date(year, month - 1, day); // Month is 0-based in JavaScript Date
+  };
+  const handleDateChange = (_, selectedDate?: Date) => {
     if (!selectedDate) return;
-    setDate(selectedDate);
+    setDate( selectedDate.toLocaleDateString('he-IL'));
     setShowDatePicker(false);
   };
 
@@ -26,13 +30,13 @@ const DateInput: React.FC<DateInputProps> = ({setDate, dateText, date}) => {
 
       {showDatePicker ? (
         <DateTimePicker
-          value={date}
+          value={date ? convertToDate(date) : new Date()}
           mode="date"
           display="compact"
           onChange={handleDateChange}
         />
       ) : (
-        <Text style={styles.selectedDateText}>{date.toDateString()}</Text>
+        <Text style={styles.selectedDateText}>{date}</Text>
       )}
     </TouchableOpacity>
   );
